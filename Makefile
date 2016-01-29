@@ -13,10 +13,20 @@ MIRRORLIST=$(DEST)/etc/pacman.d/mirrorlist
 
 .PHONY: init
 
+all:	archlinux-bootstrap.tar.gz proot os
+	cp $(MIRRORLIST) $(MIRRORLIST).bak
+	$(shell sed -i 's/#Server = http:\/\/ftp.acc.umu.se\/mirror\/archlinux\/$$repo\/os\/$$arch/Server = http:\/\/ftp.acc.umu.se\/mirror\/archlinux\/$$repo\/os\/$$arch/' $(MIRRORLIST))
+	mkdir -p $(DEST)/other
+	rm -rf $(DEST)/other/proot $(DEST)/other/sudo
+	ln -fs $(shell readlink -f proot) $(DEST)/other/proot
+	ln -fs $(shell readlink -f sudo)  $(DEST)/other/sudo
+	./root ./init
+
 archlinux-bootstrap.tar.gz:
 	$(eval DIST = $(shell curl $(ARCH_MIRROR) --list-only | grep $(ARCH)))
 	curl -O $(ARCH_MIRROR)$(DIST)
 	mv $(DIST) archlinux-bootstrap.tar.gz
+os:
 	mkdir -p $(DEST)
 	tar xzvf archlinux-bootstrap.tar.gz -C $(DEST) --strip-components=1
 
@@ -25,14 +35,6 @@ proot:
 	mv $(PROOT) proot
 	chmod +x proot
 
-all:	archlinux-bootstrap.tar.gz proot
-	cp $(MIRRORLIST) $(MIRRORLIST).bak
-	$(shell sed -i 's/#Server = http:\/\/ftp.acc.umu.se\/mirror\/archlinux\/$$repo\/os\/$$arch/Server = http:\/\/ftp.acc.umu.se\/mirror\/archlinux\/$$repo\/os\/$$arch/' $(MIRRORLIST))
-	mkdir -p $(DEST)/other
-	rm -rf $(DEST)/other/proot $(DEST)/other/sudo
-	ln -fs $(shell readlink -f proot) $(DEST)/other/proot
-	ln -fs $(shell readlink -f sudo)  $(DEST)/other/sudo
-	./root ./init
 clean:
 	$(shell chmod 777 -fR $(DEST))
 	rm -rf archlinux-bootstrap*.tar.gz proot* $(DEST)
