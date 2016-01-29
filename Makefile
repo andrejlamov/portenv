@@ -1,15 +1,15 @@
-CPU=$(shell uname -m)
+CPU := $(shell uname -m)
 
-ARCH_MIRROR=ftp://ftp.acc.umu.se/mirror/archlinux/iso/latest/
-PROOT_MIRROR=https://raw.githubusercontent.com/proot-me/proot-static-build/master/static/proot-$(CPU)
+ARCH_MIRROR = ftp://ftp.acc.umu.se/mirror/archlinux/iso/latest/
+PROOT_MIRROR = https://raw.githubusercontent.com/proot-me/proot-static-build/master/static/proot-$(CPU)
 
-PROOT_CPU=proot-$(CPU)
-PROOT_FLAG=-S root.$CPU -b 'root.$(CPU)/:/'
-ARCH=archlinux-bootstrap-.*-$(CPU).tar.gz$$ # $$ escapes $
-DIST=$(shell curl $(ARCH_MIRROR) --list-only | grep $(ARCH))
-DEST=os
+PROOT_CPU = proot-$(CPU)
+PROOT_FLAG = -S root.$CPU -b 'root.$(CPU)/:/'
+ARCH = archlinux-bootstrap-.*-$(CPU).tar.gz$$ # $$ escapes $
+DIST := $(shell curl $(ARCH_MIRROR) --list-only | grep $(ARCH))
+DEST = os
 
-MIRRORLIST=$(DEST)/etc/pacman.d/mirrorlist
+MIRRORLIST := $(DEST)/etc/pacman.d/mirrorlist
 
 PROOT := $(shell readlink -f proot)
 SUDO  := $(shell readlink -f sudo)
@@ -25,8 +25,7 @@ all:	proot $(DEST)
 	ln -fs $(PROOT) $(DEST)/other/proot
 	ln -fs $(SUDO)  $(DEST)/other/sudo
 	ln -fs $(OTHER) $(DEST)/etc/profile.d/
-	./root ./init
-
+	@echo "*** now run ./init as root"
 proot:
 	curl -O $(PROOT_MIRROR)
 	mv $(PROOT_CPU) proot
