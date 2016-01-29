@@ -20,6 +20,7 @@ all:	archlinux-bootstrap.tar.gz proot os
 	rm -rf $(DEST)/other/proot $(DEST)/other/sudo
 	ln -fs $(shell readlink -f proot) $(DEST)/other/proot
 	ln -fs $(shell readlink -f sudo)  $(DEST)/other/sudo
+	ln -fs $(shell readlink -f other.sh) $(DEST)/etc/profile.d/
 	./root ./init
 
 archlinux-bootstrap.tar.gz:
