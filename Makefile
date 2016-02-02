@@ -16,6 +16,7 @@ MIRRORLIST := $(BOOTSTRAP)/etc/pacman.d/mirrorlist
 all:	proot $(BOOTSTRAP) $(DEST)
 	cp $(MIRRORLIST) $(MIRRORLIST).bak
 	sed -i 's/#Server = http:\/\/ftp.acc.umu.se\/mirror\/archlinux\/$$repo\/os\/$$arch/Server = http:\/\/ftp.acc.umu.se\/mirror\/archlinux\/$$repo\/os\/$$arch/' $(MIRRORLIST)
+	ln -sf $(HOME)/.ssh /root/
 
 proot:
 	curl -O $(PROOT_MIRROR)
