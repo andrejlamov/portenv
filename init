@@ -1,12 +1,6 @@
 #!/bin/sh
-
 pacman-key --init
 pacman-key --populate archlinux
 pacman -Syy
-
-cat > os/etc/profile.d/x.sh <<EOF
-export XAUTHORITY=${XAUTHORITY}
-export DISPLAY=${DISPLAY}
-EOF
-
-useradd -m portenv
+useradd $USER
+pacman -S --needed --noconfirm `cat base.list`

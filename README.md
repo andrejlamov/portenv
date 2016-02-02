@@ -1,8 +1,10 @@
 # portenv
-arch with proot
+Portable enviroment based on arch with proot
 
 make
 
 ./portenv
 
-sudo pacman -S emacs-nox git erlang
+./init
+
+pacman -S `cat package.list`

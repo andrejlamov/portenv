@@ -1,4 +1,0 @@
-#!/bin/sh
-
-DEST=os
-./proot -S $DEST -b ""$DEST/:/"" $*

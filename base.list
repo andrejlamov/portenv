@@ -1,0 +1,10 @@
+base-devel
+findutils
+openssh
+pkgfile
+which
+unzip
+wget
+ttf-dejavu
+emacs
+git
