@@ -2,5 +2,8 @@
 pacman-key --init
 pacman-key --populate archlinux
 pacman -Syy
+
 useradd $USER
+ln -sf $HOME/.ssh /root/
+
 pacman -S --needed --noconfirm `cat base.list`

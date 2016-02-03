@@ -1,4 +1,7 @@
 CPU := $(shell uname -m)
+ifneq ($(CPU), x86_64)
+	CPU = x86
+endif
 
 ARCH_MIRROR = ftp://ftp.acc.umu.se/mirror/archlinux/iso/latest/
 PROOT_MIRROR = https://raw.githubusercontent.com/proot-me/proot-static-build/master/static/proot-$(CPU)
@@ -16,7 +19,6 @@ MIRRORLIST := $(BOOTSTRAP)/etc/pacman.d/mirrorlist
 all:	proot $(BOOTSTRAP) $(DEST)
 	cp $(MIRRORLIST) $(MIRRORLIST).bak
 	sed -i 's/#Server = http:\/\/ftp.acc.umu.se\/mirror\/archlinux\/$$repo\/os\/$$arch/Server = http:\/\/ftp.acc.umu.se\/mirror\/archlinux\/$$repo\/os\/$$arch/' $(MIRRORLIST)
-	ln -sf $(HOME)/.ssh /root/
 
 proot:
 	curl -O $(PROOT_MIRROR)
