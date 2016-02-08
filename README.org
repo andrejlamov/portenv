@@ -1,0 +1,23 @@
+#+TITLE: portenv
+#+AUTHOR: portenv
+
+Portable enviroment based on arch with proot
+
+* install
+#+BEGIN_SRC bash
+make
+
+./portenv
+
+./init
+
+pacman -S `cat package.list`
+#+END_SRC
+
+* issues
+** Emacs outputs =Emergency (alloc): Warning: past 95% of memory limit= on some machines
+Add to =.emacs=
+
+#+BEGIN_SRC elisp
+(setq warning-suppress-types '((alloc)))
+#+END_SRC
